@@ -1,5 +1,5 @@
 #############################################################################################
-# MySQL Database Loader Script
+# MySQL Database Loader Scripts
 #
 # By David Lohmeyer
 # vilepickle@gmail.com
@@ -47,15 +47,15 @@
 
 SERVER="localhost"
 USER="root"
-PW="overworked"
+PW="password"
 
 #############################################################################################
 # If PROMPT is set to 1, the script will ask for DB file
 # and DB values.  If not, change the variables below.
 PROMPT=0
 
-DBFILENAME="drupal7_acton_es.gz"
-DATABASE="drupal7_acton_es"
+DBFILENAME="database.gz"
+DATABASE="database_name"
 
 #############################################################################################
 # No need to edit below this line.
