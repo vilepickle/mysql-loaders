@@ -106,4 +106,7 @@ if [ -s $EXTRACTEDFILE ]
 fi
 
 # Dump the database
-mysqldump -u $USER -p$PW -h $SERVER $DATABASE | gzip -9 > $DBFILENAME
+mysqldump -u $USER -p$PW -h $SERVER $DATABASE --result-file=$EXTRACTEDFILE
+
+#GZip the file
+gzip -9 --force $EXTRACTEDFILE > $DBFILENAME

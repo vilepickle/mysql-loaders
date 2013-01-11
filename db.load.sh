@@ -100,5 +100,8 @@ fi
 
 # Load the DB
 echo "Importing new database from file '$DBFILENAME'..."
-gzip -d $DBFILENAME | mysql -u $USER -p$PW -h $SERVER $DATABASE < $DATABASE
+EXTRACTEDFILE=$(echo $DBFILENAME | sed "s/\..*$//")
+gzip -d $DBFILENAME
+mv $EXTRACTEDFILE $DATABASE
+mysql -u $USER -p$PW -h $SERVER $DATABASE < $DATABASE
 gzip $DATABASE
