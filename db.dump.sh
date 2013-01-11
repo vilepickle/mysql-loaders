@@ -44,9 +44,13 @@ USER="username"
 PW="password"
 
 #############################################################################################
-# If PROMPT is set to 1, the script will ask for DB file
-# and DB values.  If not, change the variables below.
+# If PROMPT is set to 1, the script will ask for DBFILENAME in .gz format
+# and also DATABASE values.  If 0, change those two variables below.
 PROMPT=0
+
+# If COMPRESS is set to 1, DBFILENAME expects a .gz extension.
+# If COMPRESS is 0, DBFILENAME should have a .sql extension.
+COMPRESS=1
 
 DBFILENAME="database.gz"
 DATABASE="database_name"
@@ -99,14 +103,19 @@ if [ -s $DBFILENAME ]
 		rm $DBFILENAME
 fi
 
-EXTRACTEDFILE=$(echo $DBFILENAME | sed "s/\..*$//")
-if [ -s $EXTRACTEDFILE ]
+if [ $COMPRESS = 1 ]
 	then
-		rm $EXTRACTEDFILE
+		EXTRACTEDFILE=$(echo $DBFILENAME | sed "s/\..*$//")
+		if [ -s $EXTRACTEDFILE ]
+			then
+				rm $EXTRACTEDFILE
+		fi
+		# Dump the database
+		mysqldump -u $USER -p$PW -h $SERVER $DATABASE --result-file=$EXTRACTEDFILE
+
+		#GZip the file
+		gzip -9 --force $EXTRACTEDFILE > $DBFILENAME
+	else
+		# Dump the database
+		mysqldump -u $USER -p$PW -h $SERVER $DATABASE --result-file=$DBFILENAME
 fi
-
-# Dump the database
-mysqldump -u $USER -p$PW -h $SERVER $DATABASE --result-file=$EXTRACTEDFILE
-
-#GZip the file
-gzip -9 --force $EXTRACTEDFILE > $DBFILENAME
