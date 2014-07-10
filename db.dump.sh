@@ -90,11 +90,11 @@ if [ $COMPRESS = 1 ]
 				rm $EXTRACTEDFILE
 		fi
 		# Dump the database
-		mysqldump -u $USER -p$PW -h $SERVER $DATABASE --result-file=$EXTRACTEDFILE
+		mysqldump --opt --skip-dump-date -u $USER -p$PW -h $SERVER $DATABASE --result-file=$EXTRACTEDFILE
 
 		#GZip the file
 		gzip -9 --force $EXTRACTEDFILE > $DBFILENAME
 	else
 		# Dump the database
-		mysqldump --opt -u $USER -p$PW -h $SERVER $DATABASE --result-file=$DBFILENAME
+		mysqldump --opt --skip-dump-date -u $USER -p$PW -h $SERVER $DATABASE --result-file=$DBFILENAME
 fi
